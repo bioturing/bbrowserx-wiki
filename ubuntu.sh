@@ -140,4 +140,6 @@ sudo docker run -t -i \
     -v "$APP_DATA_VOLUME":/data/app_data \
     -v "$USER_DATA_VOLUME":/data/user_data \
     -v "$SSL_VOLUME":/config/ssl \
-    bioturing-ecosystem:stable
+    --name bioturing \
+    -d \
+    registry.bioturing.com/apps/bioturing-ecosystem:stable
