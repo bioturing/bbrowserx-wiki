@@ -103,25 +103,51 @@ helm repo update
 
 echo -e "${_BLUE}Install BioTuring ecosystem to K8S service${_NC}\n"
 if [ "$USELETSENCRYPT" == "true" ]; then
-    helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
-        --set secret.data.domain="${SVHOST}" \
-        --set secret.server.useletsencrypt="${USELETSENCRYPT}" \
-        --set secret.admin.username="${ADMIN_USERNAME}" \
-        --set secret.admin.password="${ADMIN_PASSWORD}" \
-        --set persistence.dirs.user.size="${USERDATA_PVC_SIZE}" \
-        --set persistence.dirs.app.size="${APPDATA_PVC_SIZE}" \
-        --namespace ${K8S_NAMESPACE} \
-        bioturing bioturing/ecosystem --version ${BBVERSION}
+    if [ -z "$K8S_NAMESPACE" ]; then
+        helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
+            --set secret.data.domain="${SVHOST}" \
+            --set secret.server.useletsencrypt="${USELETSENCRYPT}" \
+            --set secret.admin.username="${ADMIN_USERNAME}" \
+            --set secret.admin.password="${ADMIN_PASSWORD}" \
+            --set persistence.dirs.user.size="${USERDATA_PVC_SIZE}" \
+            --set persistence.dirs.app.size="${APPDATA_PVC_SIZE}" \
+            bioturing bioturing/ecosystem --version ${BBVERSION}
+    else
+        helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
+            --set secret.data.domain="${SVHOST}" \
+            --set secret.server.useletsencrypt="${USELETSENCRYPT}" \
+            --set secret.admin.username="${ADMIN_USERNAME}" \
+            --set secret.admin.password="${ADMIN_PASSWORD}" \
+            --set persistence.dirs.user.size="${USERDATA_PVC_SIZE}" \
+            --set persistence.dirs.app.size="${APPDATA_PVC_SIZE}" \
+            --namespace ${K8S_NAMESPACE} \
+            bioturing bioturing/ecosystem --version ${BBVERSION} \
+            --create-namespace
+    fi
 else
-    helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
-        --set secret.data.domain="${SVHOST}" \
-        --set secret.server.certificate="${SSLCRT}" \
-        --set secret.server.key="${SSLKEY}" \
-        --set secret.server.useletsencrypt="${USELETSENCRYPT}" \
-        --set secret.admin.username="${ADMIN_USERNAME}" \
-        --set secret.admin.password="${ADMIN_PASSWORD}" \
-        --set persistence.dirs.user.size="${USERDATA_PVC_SIZE}" \
-        --set persistence.dirs.app.size="${APPDATA_PVC_SIZE}" \
-        --namespace ${K8S_NAMESPACE} \
-        bioturing bioturing/ecosystem --version ${BBVERSION}
+    if [ -z "$K8S_NAMESPACE" ]; then
+        helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
+            --set secret.data.domain="${SVHOST}" \
+            --set secret.server.certificate="${SSLCRT}" \
+            --set secret.server.key="${SSLKEY}" \
+            --set secret.server.useletsencrypt="${USELETSENCRYPT}" \
+            --set secret.admin.username="${ADMIN_USERNAME}" \
+            --set secret.admin.password="${ADMIN_PASSWORD}" \
+            --set persistence.dirs.user.size="${USERDATA_PVC_SIZE}" \
+            --set persistence.dirs.app.size="${APPDATA_PVC_SIZE}" \
+            bioturing bioturing/ecosystem --version ${BBVERSION}
+    else
+        helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
+            --set secret.data.domain="${SVHOST}" \
+            --set secret.server.certificate="${SSLCRT}" \
+            --set secret.server.key="${SSLKEY}" \
+            --set secret.server.useletsencrypt="${USELETSENCRYPT}" \
+            --set secret.admin.username="${ADMIN_USERNAME}" \
+            --set secret.admin.password="${ADMIN_PASSWORD}" \
+            --set persistence.dirs.user.size="${USERDATA_PVC_SIZE}" \
+            --set persistence.dirs.app.size="${APPDATA_PVC_SIZE}" \
+            --namespace ${K8S_NAMESPACE} \
+            bioturing bioturing/ecosystem --version ${BBVERSION} \
+            --create-namespace
+    fi
 fi
