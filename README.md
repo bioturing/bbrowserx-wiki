@@ -207,7 +207,7 @@ Kubernetes: `>=1.19.0-0`
 | persistence.storageClass | string | `""` | |
 | ingress.enabled | bool | `true` | |
 | ingress.className | string | `""` | |
-| ingress.annotations | object | `{"kubernetes.io/ingress.class":"public", "ingress.kubernetes.io/rewrite-target":"/"}` | |
+| ingress.annotations | object | `{}` | |
 | ingress.tls.enabled | bool | `true` | |
 | resources | object | `{}` | |
 | autoscaling | object | `{}` | |
