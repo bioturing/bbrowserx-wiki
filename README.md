@@ -227,8 +227,8 @@ key, admin password, and other helm chart values of your choice.
 
 ```
 BBTOKEN="USE TOKEN OBTAINED FROM BIOTURING"
-SSLCRT=base64 -w 0 ./bioturing.com.crt # <- (REPLACE THIS WITH A PATH TO YOUR CRT CERTFICATE)
-SSLKEY=base64 -w 0 ./bioturing.com.key # <- (REPLACE THIS WITH A PATH TO YOUR KEY)
+SSLCRT="base64 -w 0 ./bioturing.com.crt" # <- (REPLACE THIS WITH A PATH TO YOUR CRT CERTFICATE)
+SSLKEY="base64 -w 0 ./bioturing.com.key" # <- (REPLACE THIS WITH A PATH TO YOUR KEY)
 ADMIN_USERNAME="admin"
 ADMIN_PASSWORD="admin" # <- (CHANGE YOUR PASSWORD IF NECESSARY)
 USELETSENCRYPT="false"
