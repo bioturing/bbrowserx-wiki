@@ -2,13 +2,30 @@
 
 set -e
 
+function to_int {
+    local -i num="10#${1}"
+    echo "${num}"
+}
+
+function port_is_ok {
+    local port="$1"
+    local -i port_num=$(to_int "${port}" 2>/dev/null)
+
+    if (( $port_num < 1 || $port_num > 65535 )) ; then
+        echo "*** ${port} is not a valid port" 1>&2
+        return
+    fi
+
+    echo 'ok'
+}
+
 _RED='\033[0;31m'
 _GREEN='\033[0;32m'
 _BLUE='\033[0;34m'
 _NC='\033[0m' # No Color
 _MINIMUM_ROOT_SIZE=64424509440 # 60GB
 
-echo -e "${_BLUE}BioTuring ecosystem UBUNTU installation version${_NC} ${_GREEN}1.0.0${_NC}\n"
+echo -e "${_BLUE}BioTuring ecosystem UBUNTU installation version${_NC} ${_GREEN}stable${_NC}\n"
 
 echo -e "${_BLUE}Checking root partition capacity${_NC}"
 ROOT_SIZE=$(df -B1 --output=source,size --total / | grep 'total' | awk '{print $2}')
@@ -86,17 +103,46 @@ fi
 echo -e "${_BLUE}Installing base package${_NC}\n"
 sudo apt-get update
 sudo apt-get upgrade -y
-sudo apt-get install build-essential wget curl ca-certificates -y
 
 # Cert
-echo -e "${_BLUE}Installing trusted SSL certificates${_NC}\n"
-for filename in ./cert/*.crt; do
-    cat "$filename" >> "./cert/bundles.crt"
-done
-sudo mkdir -p /usr/local/share/ca-certificates/
-sudo mv ./cert/bundles.crt /usr/local/share/ca-certificates/
-sudo chmod +x /usr/local/share/ca-certificates/bundles.crt
-sudo update-ca-certificates
+echo "Install Self-Signed CA Certificate [y, n]: "
+read AGREE_CA
+if [ -z "$AGREE_CA" ] || [ "$AGREE_CA" != "y" ]; then
+    sudo apt-get install build-essential wget curl ca-certificates -y
+else
+    sudo apt-get install build-essential wget curl ca-certificates -y
+    echo -e "${_BLUE}Installing trusted SSL certificates${_NC}\n"
+    sudo bash ./cert/ubuntu.sh
+fi
+
+# Expose ports
+echo "Please input expose HTTP port (80): "
+read HTTP_PORT
+if [ -z "$HTTP_PORT" ]; then
+    HTTP_PORT=80
+fi
+
+HTTP_PORT_VALID=`port_is_ok ${HTTP_PORT}`
+if [ "$HTTP_PORT_VALID" == "ok" ]; then
+    echo -e "${_BLUE}HTTP port is OK${_NC}\n"
+else
+    echo -e "${_RED}Invalid expose HTTP port: ${HTTP_PORT}${_NC}\n"
+    exit 1
+fi
+
+echo "Please input expose HTTPS port (443): "
+read HTTPS_PORT
+if [ -z "$HTTPS_PORT" ]; then
+    HTTPS_PORT=443
+fi
+
+HTTPS_PORT_VALID=`port_is_ok ${HTTPS_PORT}`
+if [ "$HTTPS_PORT_VALID" == "ok" ]; then
+    echo -e "${_BLUE}HTTPS port is OK${_NC}\n"
+else
+    echo -e "${_RED}Invalid expose HTTPS port: ${HTTPS_PORT}${_NC}\n"
+    exit 1
+fi
 
 # Docker
 echo -e "${_BLUE}Installing docker${_NC}\n"
@@ -135,8 +181,8 @@ sudo docker run -t -i \
     -e BIOTURING_TOKEN="$BIOTURING_TOKEN" \
     -e ADMIN_USERNAME="$ADMIN_USERNAME" \
     -e ADMIN_PASSWORD="$ADMIN_PASSWORD" \
-    -p 80:80 \
-    -p 443:443 \
+    -p ${HTTP_PORT}:80 \
+    -p ${HTTPS_PORT}:443 \
     -v "$APP_DATA_VOLUME":/data/app_data \
     -v "$USER_DATA_VOLUME":/data/user_data \
     -v "$SSL_VOLUME":/config/ssl \
