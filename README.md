@@ -1,4 +1,4 @@
-![Logo](logo.png)
+![BBrowserX](logo.png)
 
 # A GPU-accelerated single-cell platform by BioTuring&reg;
 
@@ -207,9 +207,7 @@ Kubernetes: `>=1.19.0-0`
 | persistence.storageClass | string | `""` | |
 | ingress.enabled | bool | `true` | |
 | ingress.className | string | `""` | |
-| ingress.annotations | object |
-`{"kubernetes.io/ingress.class":"public",
-"ingress.kubernetes.io/rewrite-target":"/"}` | |
+| ingress.annotations | object | `{"kubernetes.io/ingress.class":"public", "ingress.kubernetes.io/rewrite-target":"/"}` | |
 | ingress.tls.enabled | bool | `true` | |
 | resources | object | `{}` | |
 | autoscaling | object | `{}` | |

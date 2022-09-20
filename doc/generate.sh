@@ -1,1 +1,1 @@
-pandoc ../README.md -o MANUAL.pdf
+pandoc README.md -o MANUAL.pdf
