@@ -91,6 +91,12 @@ else
     USELETSENCRYPT="true"
 fi
 
+echo "Please input K8S namespace (default): "
+read K8S_NAMESPACE
+if [ -z "$K8S_NAMESPACE" ]; then
+    K8S_NAMESPACE=""
+fi
+
 echo -e "${_BLUE}Add BioTuring Helm charts to K8S service${_NC}\n"
 helm repo add bioturing https://registry.bioturing.com/charts/
 helm repo update
@@ -104,6 +110,7 @@ if [ "$USELETSENCRYPT" == "true" ]; then
         --set secret.admin.password="${ADMIN_PASSWORD}" \
         --set persistence.dirs.user.size="${USERDATA_PVC_SIZE}" \
         --set persistence.dirs.app.size="${APPDATA_PVC_SIZE}" \
+        --namespace ${K8S_NAMESPACE} \
         bioturing bioturing/ecosystem --version ${BBVERSION}
 else
     helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
@@ -115,5 +122,6 @@ else
         --set secret.admin.password="${ADMIN_PASSWORD}" \
         --set persistence.dirs.user.size="${USERDATA_PVC_SIZE}" \
         --set persistence.dirs.app.size="${APPDATA_PVC_SIZE}" \
+        --namespace ${K8S_NAMESPACE} \
         bioturing bioturing/ecosystem --version ${BBVERSION}
 fi
