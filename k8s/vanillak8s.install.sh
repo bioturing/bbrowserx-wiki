@@ -9,15 +9,15 @@ _NC='\033[0m' # No Color
 
 echo -e "${_BLUE}BioTuring ecosystem VanillaK8S installation version${_NC} ${_GREEN}stable${_NC}\n"
 
-read -p "Please Enter BioTuring TOKEN: " BBTOKEN
+read -p "Please enter BioTuring TOKEN: " BBTOKEN
 if [ -z "$BBTOKEN" ]; then
-    echo -e "${_RED}Can not be empty BBTOKEN${_NC}\n"
+    echo -e "${_RED}Can not be empty${_NC}\n"
     exit 1
 fi
 
 read -p "Please enter your DOMAIN: " SVHOST
 if [ -z "$SVHOST" ]; then
-    echo -e "${_RED}Domain can not be empty${_NC}\n"
+    echo -e "${_RED}Can not be empty${_NC}\n"
     exit 1
 fi
 
@@ -36,12 +36,12 @@ if [ -z "$BBVERSION" ]; then
     BBVERSION="1.0.11"
 fi
 
-read -p "Please input APP-DATA PVC's size (5Gi): " APPDATA_PVC_SIZE
+read -p "Please enter APP-DATA PVC's size (5Gi): " APPDATA_PVC_SIZE
 if [ -z "$APPDATA_PVC_SIZE" ]; then
     APPDATA_PVC_SIZE="5Gi"
 fi
 
-read -p "Please input USER-DATA PVC's size (5Gi): " USERDATA_PVC_SIZE
+read -p "Please enter USER-DATA PVC's size (5Gi): " USERDATA_PVC_SIZE
 if [ -z "$USERDATA_PVC_SIZE" ]; then
     USERDATA_PVC_SIZE="5Gi"
 fi
@@ -54,7 +54,7 @@ if [ -z "$USELETSENCRYPT" ] || [ "$USELETSENCRYPT" != "y" ]; then
 
     read -p "Please enter SSL_CRT file: " CRT_PATH
     if [ -z "$CRT_PATH" ]; then
-        echo -e "${_RED}SSL_CRT file cannot be empty${_NC}\n"
+        echo -e "${_RED}Can not be empty${_NC}\n"
         exit 1
     fi
     
@@ -67,7 +67,7 @@ if [ -z "$USELETSENCRYPT" ] || [ "$USELETSENCRYPT" != "y" ]; then
 
     read -p "Please enter SSL_KEY file: " KEY_PATH
     if [ -z "$KEY_PATH" ]; then
-        echo -e "${_RED}KEY_PATH file cannot be empty${_NC}\n"
+        echo -e "${_RED}Can not be empty${_NC}\n"
         exit 1
     fi
     

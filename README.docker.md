@@ -17,23 +17,15 @@ Before installing the BioTuring System on Linux/K8S, some pre-installation steps
 - At least 16 CPU cores. 
 - Operating system:  Ubuntu 18.04.x, Ubuntu 20.04.x, Ubuntu 22.04.x, RHEL 7.x, RHEL 8.x, RHEL 9.x
 
-
-## 2. Self-Signed CA Certificate installation (If you have problem with curl https):
+### 1.2. Self-Signed CA Certificate installation (If you have problem with curl https):
 
 Adding self-signed certificates as trusted to your proxy agent/server
 
 ```
-For Ubuntu OS:
-
-bash ./cert/ubuntu.sh
-
-For Redhat/Centos OS:
-
-bash ./cert/rhel.sh
+bash ./cert/install.sh
 ```
 
-
-## 5. Docker Installation:
+## 2. Docker Installation:
 
 We support container runtime: Docker, Containerd.
 
@@ -61,17 +53,16 @@ docker container run -d -t -i \
     --name bioturing-ecosystem
 ```
 
+## 3. Notices
 
-## 7. Notices
-
-### 7.1. Security
-- BioTuring System uses HTTPS protocol to securely communicate over the network.
+### 3.1. Security
+- BioTuring System  uses HTTPS protocol to securely communicate over the network.
 - All of the users need to authenticate using a BioTuring account or the company's SSO to access the platform.
 - We highly recommend setting up a private VPC network for IP restriction.
 - The data stays behind the company firewall.
-- BioTuring System platform does not track any usage logs.
+- BioTuring System does not track any usage logs.
 
-### 7.2. Data visibility
+### 3.2. Data visibility
 - Data can be uploaded to Personal Workspace or Data Sharing group.
 - In the Personal Workspace, only the owner can see and manipulate the data she/he uploaded.
 - In the Data Sharing group, only people in the group can see the data.

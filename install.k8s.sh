@@ -2,7 +2,7 @@
 
 set -e
 
-read -p "Your K8S engines [vanilla, microk8s]: " K8S_DIST
+read -p "Your K8S engine [vanilla, microk8s]: " K8S_DIST
 
 bash ./gpu/patch.driver.sh
 if [ -z "$K8S_DIST" ] || [ "$K8S_DIST" != "microk8s" ]; then

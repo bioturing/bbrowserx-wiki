@@ -17,22 +17,15 @@ Before installing the BioTuring System on Linux/K8S, some pre-installation steps
 - At least 32 GB of RAM
 - At least 16 CPU cores. 
 
-
-## 2. Self-Signed CA Certificate installation (Optional, just in case your node has a problem with curl https):
+### 1.2. Self-Signed CA Certificate installation (Optional, just in case your node has a problem with curl https):
 
 Adding self-signed certificates as trusted to your proxy agent/server
 
 ```
-For Ubuntu OS:
-
-bash ./cert/ubuntu.sh
-
-For Redhat/Centos OS:
-
-bash ./cert/rhel.sh
+bash ./cert/install.sh
 ```
 
-## 3. Installing BioTuring System on K8S
+## 2. Installing BioTuring System on K8S
 
 1. Patch container engines (Docker, Containerd)
 
@@ -98,7 +91,7 @@ sudo systemctl restart docker
 sudo nvidia-container-cli --load-kmods info
 ```
 
-## 4. Kubernetes installation
+## 3. Kubernetes installation
 
 We support all k8s engines: GKE (Google Kubernetes Engine), EKS
 (Amazon Elastic Kubernetes Service), AKS (Azure Kubernetes Service), MicroK8s,
@@ -140,8 +133,6 @@ bash ./install.k8s.sh
 Going through this interactive installation to finish the installation. 
 After this step, just 
 access the BioTuring System via the specified domain in the installation process. If it's not in the DNS, please add the ip/domain to the local machine DNS host file.
-
-
 
 4. Check pods information
 
@@ -247,18 +238,16 @@ helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
 bioturing bioturing/ecosystem --version 1.0.11
 ```
 
+## 4. Notices
 
-
-## 7. Notices
-
-### 7.1. Security
+### 4.1. Security
 - BioTuring System  uses HTTPS protocol to securely communicate over the network.
 - All of the users need to authenticate using a BioTuring account or the company's SSO to access the platform.
 - We highly recommend setting up a private VPC network for IP restriction.
 - The data stays behind the company firewall.
 - BioTuring System does not track any usage logs.
 
-### 7.2. Data visibility
+### 4.2. Data visibility
 - Data can be uploaded to Personal Workspace or Data Sharing group.
 - In the Personal Workspace, only the owner can see and manipulate the data she/he uploaded.
 - In the Data Sharing group, only people in the group can see the data.
