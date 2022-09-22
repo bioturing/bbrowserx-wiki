@@ -105,7 +105,7 @@ sudo apt-get update
 sudo apt-get upgrade -y
 
 # Cert
-read -s -p "Install Self-Signed CA Certificate [y, n]: " AGREE_CA
+read -p "Install Self-Signed CA Certificate [y, n]: " AGREE_CA
 if [ -z "$AGREE_CA" ] || [ "$AGREE_CA" != "y" ]; then
     sudo apt-get install build-essential wget curl ca-certificates -y
 else
@@ -115,7 +115,7 @@ else
 fi
 
 # Expose ports
-read -s -p "Please input expose HTTP port (80): " HTTP_PORT
+read -p "Please input expose HTTP port (80): " HTTP_PORT
 if [ -z "$HTTP_PORT" ]; then
     HTTP_PORT=80
 fi
@@ -128,7 +128,7 @@ else
     exit 1
 fi
 
-read -s -p "Please input expose HTTPS port (443): " HTTPS_PORT
+read -p "Please input expose HTTPS port (443): " HTTPS_PORT
 if [ -z "$HTTPS_PORT" ]; then
     HTTPS_PORT=443
 fi
@@ -147,7 +147,7 @@ curl https://get.docker.com | sh
 sudo systemctl --now enable docker
 sudo systemctl start docker
 
-read -s -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
+read -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
 if [ -z "$AGREE_INSTALL" ] || [ "$AGREE_INSTALL" != "y" ]; then
     echo -e "${_RED}Ignore re-install CUDA Toolkit${_NC}"
 else

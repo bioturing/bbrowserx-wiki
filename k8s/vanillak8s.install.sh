@@ -9,50 +9,50 @@ _NC='\033[0m' # No Color
 
 echo -e "${_BLUE}BioTuring ecosystem VanillaK8S installation version${_NC} ${_GREEN}stable${_NC}\n"
 
-read -s -p "Please input Bioturing's TOKEN: " BBTOKEN
+read -p "Please input Bioturing's TOKEN: " BBTOKEN
 if [ -z "$BBTOKEN" ]; then
     echo -e "${_RED}Can not empty BBTOKEN${_NC}\n"
     exit 1
 fi
 
-read -s -p "Please input your DOMAIN: " SVHOST
+read -p "Please input your DOMAIN: " SVHOST
 if [ -z "$SVHOST" ]; then
     echo -e "${_RED}Can not empty your domain${_NC}\n"
     exit 1
 fi
 
-read -s -p "Please input your admin name (admin): " ADMIN_USERNAME
+read -p "Please input your admin name (admin): " ADMIN_USERNAME
 if [ -z "$ADMIN_USERNAME" ]; then
     ADMIN_USERNAME="admin"
 fi
 
-read -s -p "Please input your admin password (turing2022): " ADMIN_PASSWORD
+read -p "Please input your admin password (turing2022): " ADMIN_PASSWORD
 if [ -z "$ADMIN_PASSWORD" ]; then
     ADMIN_PASSWORD="turing2022"
 fi
 
-read -s -p "Please input BBrowserX's VERSION (1.0.11): " BBVERSION
+read -p "Please input BBrowserX's VERSION (1.0.11): " BBVERSION
 if [ -z "$BBVERSION" ]; then
     BBVERSION="1.0.11"
 fi
 
-read -s -p "Please input APP-DATA PCV's size (5Gi): " APPDATA_PVC_SIZE
+read -p "Please input APP-DATA PCV's size (5Gi): " APPDATA_PVC_SIZE
 if [ -z "$APPDATA_PVC_SIZE" ]; then
     APPDATA_PVC_SIZE="5Gi"
 fi
 
-read -s -p "Please input USER-DATA PCV's size (5Gi): " USERDATA_PVC_SIZE
+read -p "Please input USER-DATA PCV's size (5Gi): " USERDATA_PVC_SIZE
 if [ -z "$USERDATA_PVC_SIZE" ]; then
     USERDATA_PVC_SIZE="5Gi"
 fi
 
 SSLCRT=""
 SSLKEY=""
-read -s -p "Use lets-encrypt SSL (must be public your domain), [y, n]: " USELETSENCRYPT
+read -p "Use lets-encrypt SSL (must be public your domain), [y, n]: " USELETSENCRYPT
 if [ -z "$USELETSENCRYPT" ] || [ "$USELETSENCRYPT" != "y" ]; then
     USELETSENCRYPT="false"
 
-    read -s -p "Please input SSL_CRT file: " CRT_PATH
+    read -p "Please input SSL_CRT file: " CRT_PATH
     if [ -z "$CRT_PATH" ]; then
         echo -e "${_RED}Can not empty SSL_CRT file${_NC}\n"
         exit 1
@@ -65,7 +65,7 @@ if [ -z "$USELETSENCRYPT" ] || [ "$USELETSENCRYPT" != "y" ]; then
         exit 1
     fi
 
-    read -s -p "Please input SSL_KEY file: " KEY_PATH
+    read -p "Please input SSL_KEY file: " KEY_PATH
     if [ -z "$KEY_PATH" ]; then
         echo -e "${_RED}Can not empty KEY_PATH file${_NC}\n"
         exit 1
@@ -81,7 +81,7 @@ else
     USELETSENCRYPT="true"
 fi
 
-read -s -p "Please input K8S namespace (default): " K8S_NAMESPACE
+read -p "Please input K8S namespace (default): " K8S_NAMESPACE
 if [ -z "$K8S_NAMESPACE" ]; then
     K8S_NAMESPACE=""
 fi

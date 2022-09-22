@@ -6,7 +6,7 @@ _RED='\033[0;31m'
 _BLUE='\033[0;34m'
 _NC='\033[0m' # No Color
 
-read -s -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
+read -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
 if [ -z "$AGREE_INSTALL" ] || [ "$AGREE_INSTALL" != "y" ]; then
     echo -e "${_RED}Ignore re-install CUDA Toolkit${_NC}"
 else
