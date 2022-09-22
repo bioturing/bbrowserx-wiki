@@ -1,9 +1,6 @@
-![BioTuring Ecosystem](logo.png)
-
-# A GPU-accelerated single-cell platform by BioTuring&reg;
 
 ## BioTuring System - GPU enterprise version installation guide
-This edition of the installation guide describes the installation process of BioTuring&reg; System for container runtime (Docker/Containerd), K8S, and standalone Linux machine.
+This edition of the installation guide describes the installation process of BioTuring&reg; System for K8S.
 
 ## 1. Introduction
 BioTuring System is a GPU-accelerated single-cell and spatial platform developed by BioTuring&reg;. It dramatically increases the computing performance of single-cell and spatial analysis by harnessing the power of the graphics processing unit (GPU).
@@ -12,18 +9,16 @@ BioTuring System is a GPU-accelerated single-cell and spatial platform developed
 ### 1.1. Pre-Installation Requirements
 
 Before installing the BioTuring System on Linux/K8S, some pre-installation steps are required:
-- Container runtime (Docker, Containerd) or K8s
-- The system has one or multiple NVIDIA GPU(s) (at least 16 GB memory per GPU)
+- System: K8s
+- Each node has one or multiple NVIDIA GPU(s) (at least 16 GB memory per GPU)
 - SSL certificate and a domain name for users to securely access the platform on the web browser
 - A token obtained from BioTuring
 - At least 64 GB of root partition.
 - At least 32 GB of RAM
 - At least 16 CPU cores. 
-- Operating system:  Ubuntu 18.04.x, Ubuntu 20.04.x, Ubuntu 22.04.x, RHEL 7.x, RHEL 8.x, RHEL 9.x
-- or K8s
 
 
-## 2. Self-Signed CA Certificate installation (If you have problem with curl https):
+## 2. Self-Signed CA Certificate installation (Optional, just in case your node has a problem with curl https):
 
 Adding self-signed certificates as trusted to your proxy agent/server
 
@@ -142,7 +137,8 @@ microk8s helm3 repo add bioturing https://registry.bioturing.com/charts/
 bash ./install.k8s.sh
 ```
 
-Going through this interactive installation to finish the installation. After this step, just 
+Going through this interactive installation to finish the installation. 
+After this step, just 
 access the BioTuring System via the specified domain in the installation process. If it's not in the DNS, please add the ip/domain to the local machine DNS host file.
 
 
@@ -253,49 +249,14 @@ bioturing bioturing/ecosystem --version 1.0.11
 
 
 
-## 4. BioTuring Docker Hub
-
-```
-Check for BioTuring docker images at: https://registry.bioturing.com/
-```
-
-## 5. Docker Installation:
-
-We support container runtime: Docker, Containerd.
-
-**Note**: The ideal system that we recommend for most companies is AWS [g5.8xlarge](https://aws.amazon.com/ec2/instance-types/g5/)
-
-1. Simple installation:
-```
-bash ./install.docker.sh
-```
-
-2. Manual Installation:
-
-```
-docker container run -d -t -i \
-    -e WEB_DOMAIN='CHANGE THIS TO YOUR DOMAIN' \
-    -e BIOTURING_TOKEN='USE TOKEN OBTAINED FROM BIOTURING' \
-    -e ADMIN_USERNAME='admin' \
-    -e ADMIN_PASSWORD='CHANGE YOUR PASSWORD IF NECESSARY' \
-    -p 80:80 \
-    -p 443:443 \
-    -v '/path/to/persistent/storage/':/data/user_data \
-    -v '/path/to/stateful/storage/':/data/app_data \
-    -v '/path/to/ssl/storage/':/config/ssl \
-    --link bioturing-ecosystem:latest \
-    --name bioturing-ecosystem
-```
-
-
 ## 7. Notices
 
 ### 7.1. Security
-- The BBrowserX platform uses HTTPS protocol to securely communicate over the network.
+- BioTuring System  uses HTTPS protocol to securely communicate over the network.
 - All of the users need to authenticate using a BioTuring account or the company's SSO to access the platform.
 - We highly recommend setting up a private VPC network for IP restriction.
 - The data stays behind the company firewall.
-- The BBrowserX platform does not track any usage logs.
+- BioTuring System does not track any usage logs.
 
 ### 7.2. Data visibility
 - Data can be uploaded to Personal Workspace or Data Sharing group.
