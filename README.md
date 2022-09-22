@@ -70,8 +70,8 @@ sudo systemctl restart containerd
 sudo nvidia-container-cli --load-kmods info
 ```
 
-If container engine is Docker
-Add these lines to : /etc/docker/daemon.json
+If container engine is Docker,
+add these lines to : /etc/docker/daemon.json
 
 ```
 {
