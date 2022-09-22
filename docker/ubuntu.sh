@@ -147,22 +147,27 @@ curl https://get.docker.com | sh
 sudo systemctl --now enable docker
 sudo systemctl start docker
 
-# NVIDIA CUDA Toolkit
-echo -e "${_BLUE}Installing NVIDIA CUDA Toolkit 11.7${_NC}\n"
-wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
-sudo sh cuda_11.7.1_515.65.01_linux.run
+read -s -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
+if [ -z "$AGREE_INSTALL" ] || [ "$AGREE_INSTALL" != "y" ]; then
+    echo -e "${_RED}Ignore re-install CUDA Toolkit${_NC}"
+else
+    # NVIDIA CUDA Toolkit
+    echo -e "${_BLUE}Installing NVIDIA CUDA Toolkit 11.7${_NC}\n"
+    wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
+    sudo sh cuda_11.7.1_515.65.01_linux.run
 
-# NVIDIA CUDA Docker 2
-echo -e "${_BLUE}Installing NVIDIA Docker 2${_NC}\n"
-distribution=$(. /etc/os-release;echo $ID$VERSION_ID) &&\
-    curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &&\
-    curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
-    sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
-    sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
+    # NVIDIA CUDA Docker 2
+    echo -e "${_BLUE}Installing NVIDIA Docker 2${_NC}\n"
+    distribution=$(. /etc/os-release;echo $ID$VERSION_ID) &&\
+        curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg &&\
+        curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
+        sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
+        sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
-sudo apt-get update
-sudo apt-get install -y nvidia-docker2
-sudo systemctl restart docker
+    sudo apt-get update
+    sudo apt-get install -y nvidia-docker2
+    sudo systemctl restart docker
+fi
 
 # Log in to registry.bioturing.com
 echo -e "${_BLUE}Logging in to registry.bioturing.com${_NC}"
