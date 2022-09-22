@@ -42,8 +42,8 @@ For vanilla :
 kubectl describe no | grep Runtime
 ```
 
-If container engine is Containerd
-Add these lines to : /etc/containerd/config.toml
+If container engine is Containerd, 
+add these lines to : /etc/containerd/config.toml
 
 ```
 privileged_without_host_devices = false
