@@ -254,19 +254,19 @@ Kubernetes: `>=1.19.0-0`
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| image.tag | string | `"1.0.11"` | ecosystem container image tag |
-| secret.data.domain | string | `"bbrowserx.com"` | your website domain |
+| image.tag | string | `"1.0.11"` | image tag |
+| secret.data.domain | string | `"bbrowserx.com"` | your domain |
 | secret.data.bbtoken | string | `""` | bioturing access token |
-| secret.admin.username | string | `admin` | Admin username |
-| secret.admin.password | string | `turing2022` | Admin password |
-| secret.server.useletsencrypt | string | `"false"` | Use lets-encrypt SSL |
-| secret.server.certificate | string | `""` | SSL-CRT base64 string |
-| secret.server.key | string | `""` | SSL-KEY base64 string |
+| secret.admin.username | string | `admin` | username |
+| secret.admin.password | string | `turing2022` | password |
+| secret.server.useletsencrypt | string | `"false"` | |
+| secret.server.certificate | string | `""` | CRT base64 string |
+| secret.server.key | string | `""` | KEY base64 string |
 | service.type | string | `ClusterIP` | |
 | service.ports.http.port | int | 80 | |
 | service.ports.https.port | int | 443 | |
-| persistence.dirs.app.size | string | `5Gi` | APP-DATA PVC size |
-| persistence.dirs.user.size | string | `5Gi` | USER-DATA PVC size |
+| persistence.dirs.app.size | string | `5Gi` | APP size |
+| persistence.dirs.user.size | string | `5Gi` | USER size |
 | persistence.storageClass | string | `""` | |
 | ingress.enabled | bool | `true` | |
 | ingress.className | string | `""` | |
