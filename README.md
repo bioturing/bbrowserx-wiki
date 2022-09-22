@@ -143,13 +143,7 @@ We support container runtime: Docker, Containerd.
 
 1. Simple installation:
 ```
-For Ubuntu OS:
-
-bash ./install.docker.sh ubuntu
-
-For Redhat/Centos OS:
- 
-bash ./install.docker.sh rhel
+bash ./install.docker.sh
 ```
 
 2. Manual Installation:
@@ -209,13 +203,7 @@ microk8s helm3 repo add bioturing https://registry.bioturing.com/charts/
 3. Simple Installation: use BioTuring installation script
 
 ```
-For Vanilla k8s:
-
-bash ./install.k8s.sh vanilla
-
-For Micro8s:
-
-bash ./install.k8s.sh microk8s
+bash ./install.k8s.sh
 ```
 
 4. Check pods information
