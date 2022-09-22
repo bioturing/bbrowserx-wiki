@@ -106,6 +106,7 @@ conf_dir = "/etc/cni/net.d"
 
 ```
 sudo systemctl restart containerd
+sudo nvidia-container-cli --load-kmods info
 ```
 
 If container engine is Docker
@@ -125,6 +126,7 @@ Add these lines to : /etc/docker/daemon.json
 
 ```
 sudo systemctl restart docker
+sudo nvidia-container-cli --load-kmods info
 ```
 
 ## 4. BioTuring Docker Hub
