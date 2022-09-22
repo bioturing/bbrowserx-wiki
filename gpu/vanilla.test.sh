@@ -1,7 +1,8 @@
+cat <<EOF | kubectl apply -f -
 apiVersion: v1
 kind: Pod
 metadata:
-  name: gpu-pod
+  name: gpu-pod-bioturing
 spec:
   restartPolicy: Never
   containers:
@@ -14,3 +15,6 @@ spec:
   - key: nvidia.com/gpu
     operator: Exists
     effect: NoSchedule
+EOF
+
+kubectl logs gpu-pod-bioturing

@@ -9,59 +9,50 @@ _NC='\033[0m' # No Color
 
 echo -e "${_BLUE}BioTuring ecosystem MicroK8S installation version${_NC} ${_GREEN}stable${_NC}\n"
 
-echo "Please input Bioturing's TOKEN: "
-read BBTOKEN
+read -s -p "Please input Bioturing's TOKEN: " BBTOKEN
 if [ -z "$BBTOKEN" ]; then
     echo -e "${_RED}Can not empty BBTOKEN${_NC}\n"
     exit 1
 fi
 
-echo "Please input your DOMAIN: "
-read SVHOST
+read -s -p "Please input your DOMAIN: " SVHOST
 if [ -z "$SVHOST" ]; then
     echo -e "${_RED}Can not empty your domain${_NC}\n"
     exit 1
 fi
 
-echo "Please input your admin name (admin): "
-read ADMIN_USERNAME
+read -s -p "Please input your admin name (admin): " ADMIN_USERNAME
 if [ -z "$ADMIN_USERNAME" ]; then
     ADMIN_USERNAME="admin"
 fi
 
-echo "Please input your admin password (turing2022): "
-read ADMIN_PASSWORD
+read -s -p "Please input your admin password (turing2022): " ADMIN_PASSWORD
 if [ -z "$ADMIN_PASSWORD" ]; then
     ADMIN_PASSWORD="turing2022"
 fi
 
-echo "Please input BBrowserX's VERSION (1.0.11): "
-read BBVERSION
+read -s -p "Please input BBrowserX's VERSION (1.0.11): " BBVERSION
 if [ -z "$BBVERSION" ]; then
     BBVERSION="1.0.11"
 fi
 
-echo "Please input APP-DATA PCV's size (5Gi): "
-read APPDATA_PVC_SIZE
+read -s -p "Please input APP-DATA PCV's size (5Gi): " APPDATA_PVC_SIZE
 if [ -z "$APPDATA_PVC_SIZE" ]; then
     APPDATA_PVC_SIZE="5Gi"
 fi
 
-echo "Please input USER-DATA PCV's size (5Gi): "
-read USERDATA_PVC_SIZE
+read -s -p "Please input USER-DATA PCV's size (5Gi): " USERDATA_PVC_SIZE
 if [ -z "$USERDATA_PVC_SIZE" ]; then
     USERDATA_PVC_SIZE="5Gi"
 fi
 
 SSLCRT=""
 SSLKEY=""
-echo "Use lets-encrypt SSL (must be public your domain), [y, n]: "
-read USELETSENCRYPT
+read -s -p "Use lets-encrypt SSL (must be public your domain), [y, n]: " USELETSENCRYPT
 if [ -z "$USELETSENCRYPT" ] || [ "$USELETSENCRYPT" != "y" ]; then
     USELETSENCRYPT="false"
 
-    echo "Please input SSL_CRT file: "
-    read CRT_PATH
+    read -s -p "Please input SSL_CRT file: " CRT_PATH
     if [ -z "$CRT_PATH" ]; then
         echo -e "${_RED}Can not empty SSL_CRT file${_NC}\n"
         exit 1
@@ -74,8 +65,7 @@ if [ -z "$USELETSENCRYPT" ] || [ "$USELETSENCRYPT" != "y" ]; then
         exit 1
     fi
 
-    echo "Please input SSL_KEY file: "
-    read KEY_PATH
+    read -s -p "Please input SSL_KEY file: " KEY_PATH
     if [ -z "$KEY_PATH" ]; then
         echo -e "${_RED}Can not empty KEY_PATH file${_NC}\n"
         exit 1
@@ -91,11 +81,13 @@ else
     USELETSENCRYPT="true"
 fi
 
-echo "Please input K8S namespace (default): "
-read K8S_NAMESPACE
+read -s -p "Please input K8S namespace (default): " K8S_NAMESPACE
 if [ -z "$K8S_NAMESPACE" ]; then
     K8S_NAMESPACE=""
 fi
+
+echo -e "${_BLUE}Enable GPU operator${_NC}\n"
+microk8s enable gpu
 
 echo -e "${_BLUE}Add BioTuring Helm charts to microk8s service${_NC}\n"
 microk8s helm3 repo add bioturing https://registry.bioturing.com/charts/

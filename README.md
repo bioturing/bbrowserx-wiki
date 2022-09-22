@@ -56,6 +56,9 @@ Run the commands below to install NVIDIA CUDA Toolkit 11.7 on Ubuntu 20.04.x:
 ```
 wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
 sudo sh cuda_11.7.1_515.65.01_linux.run
+
+List all the NVIDIA GPUs in the system:
+nvidia-smi -L
 ```
 
 2. Install NVIDIA Container Toolkit
@@ -64,6 +67,64 @@ Make sure you have installed the NVIDIA driver and Docker engine for your Linux 
 
 ```
 Check for NVIDIA Container Toolkit at: https://github.com/NVIDIA/nvidia-docker
+```
+
+3. Patch container engines (Docker, Containerd)
+
+Check for Nvidia cloud native at: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+
+Check container engines (Docker, Containerd)
+
+```
+For microk8s :
+microk8s kubectl describe no | grep Runtime
+
+For vanilla :
+kubectl describe no | grep Runtime
+```
+
+If container engine is Containerd
+Add these lines to : /etc/containerd/config.toml
+
+```
+privileged_without_host_devices = false
+base_runtime_spec = ""
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+    SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia]
+    privileged_without_host_devices = false
+    runtime_engine = ""
+    runtime_root = ""
+    runtime_type = "io.containerd.runc.v1"
+    [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.nvidia.options]
+    BinaryName = "/usr/bin/nvidia-container-runtime"
+    SystemdCgroup = true
+[plugins."io.containerd.grpc.v1.cri".cni]
+bin_dir = "/opt/cni/bin"
+conf_dir = "/etc/cni/net.d"
+```
+
+```
+sudo systemctl restart containerd
+```
+
+If container engine is Docker
+Add these lines to : /etc/docker/daemon.json
+
+```
+{
+    "default-runtime": "nvidia",
+    "runtimes": {
+        "nvidia": {
+            "path": "nvidia-container-runtime",
+            "runtimeArgs": []
+        }
+    }
+}
+```
+
+```
+sudo systemctl restart docker
 ```
 
 ## 4. BioTuring Docker Hub
