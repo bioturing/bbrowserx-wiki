@@ -2,10 +2,8 @@
 
 set -e
 
-read -p "Your Linux distribution [rhel, ubuntu]: " LINUX_DIST
-
-if [ -z "$LINUX_DIST" ] || [ "$LINUX_DIST" != "ubuntu" ]; then
-    bash ./docker/rhel.sh
-else
+if [ -f /etc/lsb-release ]; then
     bash ./docker/ubuntu.sh
+else
+    bash ./docker/rhel.sh
 fi
