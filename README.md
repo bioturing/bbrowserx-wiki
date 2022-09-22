@@ -1,32 +1,31 @@
-![BBrowserX](logo.png)
+![BioTuring Ecosystem](logo.png)
 
 # A GPU-accelerated single-cell platform by BioTuring&reg;
 
-## BBrowserX - GPU enterprise version installation guide
-This edition of the installation guide describes the installation process of BioTuring&reg; Browser X (BBrowserX) for supported: container runtime (Docker/Containerd), K8S, and standalone Linux machine.
+## BioTuring System - GPU enterprise version installation guide
+This edition of the installation guide describes the installation process of BioTuring&reg; System for container runtime (Docker/Containerd), K8S, and standalone Linux machine.
 
 ## 1. Introduction
-BBrowserX is a GPU-accelerated single-cell platform developed by BioTuring&reg;. It enables dramatic increases in single-cell analysis computing performance by harnessing the power of the graphics processing unit (GPU).
+BioTuring System is a GPU-accelerated single-cell and spatial platform developed by BioTuring&reg;. It dramatically increases the computing performance of single-cell and spatial analysis by harnessing the power of the graphics processing unit (GPU).
 <br/>
 
 ### 1.1. Pre-Installation Requirements
 
-Before installing the BBrowserX on Linux/K8S, some pre-installation steps are required:
+Before installing the BioTuring System on Linux/K8S, some pre-installation steps are required:
 - Container runtime (Docker, Containerd) or K8s
 - The system has one or multiple NVIDIA GPU(s) (at least 16 GB memory per GPU)
 - SSL certificate and a domain name for users to securely access the platform on the web browser
-- Token obtained from Bioturing
+- A token obtained from BioTuring
+- At least 64 GB of root partition.
+- At least 32 GB of RAM
+- At least 16 CPU cores. 
+- Operating system:  Ubuntu 18.04.x, Ubuntu 20.04.x, Ubuntu 22.04.x, RHEL 7.x, RHEL 8.x, RHEL 9.x
+- or K8s
 
-### 1.2. OS Support Policy
 
-- BBrowserX support for Ubuntu 18.04.x, Ubuntu 20.04.x, Ubuntu 22.04.x, RHEL 7.x, RHEL 8.x, RHEL 9.x , CentOS 7.x. and K8S
-- BBrowserX supports a single and latest Debian release version - as this is the only version of Debian that has CUDA support. For Debian release timelines, visit [DebianReleases](https://wiki.debian.org/DebianReleases).
+## 2. Self-Signed CA Certificate installation (If you have problem with curl https):
 
-Refer to the support lifecycle for these supported OSes to know their support timelines and plan to move to newer releases accordingly.
-
-## 2. Self-Signed CA Certificate installation (optional):
-
-Adding the self-signed certificate as trusted to your proxy agent/server
+Adding self-signed certificates as trusted to your proxy agent/server
 
 ```
 For Ubuntu OS:
@@ -38,40 +37,12 @@ For Redhat/Centos OS:
 bash ./cert/rhel.sh
 ```
 
-## 3. Prebuilt binary files (in standalone machine or K8S node)
-This section includes instructions for deploying BBrowserX on supported Ubuntu 20.04.x using prebuilt binary files.\
-For other OSes installations, please contact us.\
+## 3. Installing BioTuring System on K8S
 
-**Note**: We suggest starting from scratch to avoid package/driver conflicts.
+1. Patch container engines (Docker, Containerd)
 
-0. Pre-installation:
-```
-sudo apt update && sudo apt upgrade -y
-sudo apt install build-essential curl gnupg lsb-release ca-certificates xfsprogs -y
-```
-
-1. Install NVIDIA CUDA Toolkit 11.7.
-
-Run the commands below to install NVIDIA CUDA Toolkit 11.7 on Ubuntu 20.04.x:
-```
-wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
-sudo sh cuda_11.7.1_515.65.01_linux.run
-
-List all the NVIDIA GPUs in the system:
-nvidia-smi -L
-```
-
-2. Install NVIDIA Container Toolkit
-
-Make sure you have installed the NVIDIA driver and Docker engine for your Linux distribution (or K8s NODE).
-
-```
-Check for NVIDIA Container Toolkit at: https://github.com/NVIDIA/nvidia-docker
-```
-
-3. Patch container engines (Docker, Containerd)
-
-Check for Nvidia cloud native at: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+Install NVidia container toolkit on each node following the guide:
+https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
 
 Check container engines (Docker, Containerd)
 
@@ -104,6 +75,8 @@ bin_dir = "/opt/cni/bin"
 conf_dir = "/etc/cni/net.d"
 ```
 
+After that, restart containerd
+
 ```
 sudo systemctl restart containerd
 sudo nvidia-container-cli --load-kmods info
@@ -123,55 +96,18 @@ Add these lines to : /etc/docker/daemon.json
     }
 }
 ```
+After that, restart docker
 
 ```
 sudo systemctl restart docker
 sudo nvidia-container-cli --load-kmods info
 ```
 
-## 4. BioTuring Docker Hub
-
-```
-Check for BioTuring docker images at: https://registry.bioturing.com/
-```
-
-## 5. Docker Installation:
-
-We support container runtime: Docker, Containerd.
-
-**Note**: The ideal system that we recommend for most companies is AWS [g5.8xlarge](https://aws.amazon.com/ec2/instance-types/g5/)
-
-1. Simple installation:
-```
-bash ./install.docker.sh
-```
-
-2. Manual Installation:
-
-```
-docker container run -d -t -i \
-    -e WEB_DOMAIN='CHANGE THIS TO YOUR DOMAIN' \
-    -e BIOTURING_TOKEN='USE TOKEN OBTAINED FROM BIOTURING' \
-    -e ADMIN_USERNAME='admin' \
-    -e ADMIN_PASSWORD='CHANGE YOUR PASSWORD IF NECESSARY' \
-    -p 80:80 \
-    -p 443:443 \
-    -v '/path/to/persistent/storage/':/data/user_data \
-    -v '/path/to/stateful/storage/':/data/app_data \
-    -v '/path/to/ssl/storage/':/config/ssl \
-    --link bioturing-ecosystem:latest \
-    --name bioturing-ecosystem
-```
-
-## 6. Kubernetes installation
-
-Kubernetes, also known as K8s, is an open-source system for automated
-deployment, scaling, and management of containerized applications.
+## 4. Kubernetes installation
 
 We support all k8s engines: GKE (Google Kubernetes Engine), EKS
 (Amazon Elastic Kubernetes Service), AKS (Azure Kubernetes Service), MicroK8s,
 and vanilla K8S.
-
 
 1. Ensure that helm (version 3) is installed.
 
@@ -200,11 +136,16 @@ For Microk8s:
 microk8s helm3 repo add bioturing https://registry.bioturing.com/charts/
 ```
 
-3. Simple Installation: use BioTuring installation script
+3. Simple Installation (Recommended):
 
 ```
 bash ./install.k8s.sh
 ```
+
+Going through this interactive installation to finish the installation. After this step, just 
+access the BioTuring System via the specified domain in the installation process. If it's not in the DNS, please add the ip/domain to the local machine DNS host file.
+
+
 
 4. Check pods information
 
@@ -309,6 +250,43 @@ helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
  --set secret.admin.password="${ADMIN_PASSWORD}" \
 bioturing bioturing/ecosystem --version 1.0.11
 ```
+
+
+
+## 4. BioTuring Docker Hub
+
+```
+Check for BioTuring docker images at: https://registry.bioturing.com/
+```
+
+## 5. Docker Installation:
+
+We support container runtime: Docker, Containerd.
+
+**Note**: The ideal system that we recommend for most companies is AWS [g5.8xlarge](https://aws.amazon.com/ec2/instance-types/g5/)
+
+1. Simple installation:
+```
+bash ./install.docker.sh
+```
+
+2. Manual Installation:
+
+```
+docker container run -d -t -i \
+    -e WEB_DOMAIN='CHANGE THIS TO YOUR DOMAIN' \
+    -e BIOTURING_TOKEN='USE TOKEN OBTAINED FROM BIOTURING' \
+    -e ADMIN_USERNAME='admin' \
+    -e ADMIN_PASSWORD='CHANGE YOUR PASSWORD IF NECESSARY' \
+    -p 80:80 \
+    -p 443:443 \
+    -v '/path/to/persistent/storage/':/data/user_data \
+    -v '/path/to/stateful/storage/':/data/app_data \
+    -v '/path/to/ssl/storage/':/config/ssl \
+    --link bioturing-ecosystem:latest \
+    --name bioturing-ecosystem
+```
+
 
 ## 7. Notices
 
