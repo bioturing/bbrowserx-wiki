@@ -73,6 +73,8 @@ docker container run -d -t -i \
     --name bioturing-ecosystem-cpu
 ```
 
+'/path/to/ssl/storage/' : must contain two files: tls.crt and tls.key
+
 ## 3. Notices
 
 ### 3.1. Security
