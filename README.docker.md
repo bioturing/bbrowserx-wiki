@@ -49,6 +49,7 @@ docker container run -d -t -i \
     -v '/path/to/persistent/storage/':/data/user_data \
     -v '/path/to/stateful/storage/':/data/app_data \
     -v '/path/to/ssl/storage/':/config/ssl \
+    --gpus all \
     --link bioturing-ecosystem:latest \
     --name bioturing-ecosystem
 ```
