@@ -38,6 +38,8 @@ bash ./install.docker.sh
 
 2. Manual Installation:
 
+For GPU version
+
 ```
 docker container run -d -t -i \
     -e WEB_DOMAIN='CHANGE THIS TO YOUR DOMAIN' \
@@ -52,6 +54,23 @@ docker container run -d -t -i \
     --gpus all \
     --link bioturing-ecosystem:latest \
     --name bioturing-ecosystem
+```
+
+For GPU version
+
+```
+docker container run -d -t -i \
+    -e WEB_DOMAIN='CHANGE THIS TO YOUR DOMAIN' \
+    -e BIOTURING_TOKEN='USE TOKEN OBTAINED FROM BIOTURING' \
+    -e ADMIN_USERNAME='admin' \
+    -e ADMIN_PASSWORD='CHANGE YOUR PASSWORD IF NECESSARY' \
+    -p 80:80 \
+    -p 443:443 \
+    -v '/path/to/persistent/storage/':/data/user_data \
+    -v '/path/to/stateful/storage/':/data/app_data \
+    -v '/path/to/ssl/storage/':/config/ssl \
+    --link bioturing-ecosystem-cpu:latest \
+    --name bioturing-ecosystem-cpu
 ```
 
 ## 3. Notices
