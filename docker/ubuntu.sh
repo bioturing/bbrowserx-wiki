@@ -147,6 +147,7 @@ curl https://get.docker.com | sh
 sudo systemctl --now enable docker
 sudo systemctl start docker
 
+HAVE_GPU="no"
 read -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
 if [ -z "$AGREE_INSTALL" ] || [ "$AGREE_INSTALL" != "y" ]; then
     echo -e "${_RED}Ignore re-install CUDA Toolkit${_NC}"
@@ -167,6 +168,7 @@ else
     sudo apt-get update
     sudo apt-get install -y nvidia-docker2
     sudo systemctl restart docker
+    HAVE_GPU="yes"
 fi
 
 # Log in to registry.bioturing.com
@@ -176,19 +178,35 @@ sudo docker login registry.bioturing.com
 # Pull BioTuring ecosystem
 echo -e "${_BLUE}Pulling bioturing ecosystem image${_NC}"
 sudo docker pull registry.bioturing.com/apps/bioturing-ecosystem:stable
-
-echo -e "${_BLUE}Starting bioturing ecosystem image${_NC}"
-sudo docker run -t -i \
-    -e WEB_DOMAIN="$DOMAIN_NAME" \
-    -e BIOTURING_TOKEN="$BIOTURING_TOKEN" \
-    -e ADMIN_USERNAME="$ADMIN_USERNAME" \
-    -e ADMIN_PASSWORD="$ADMIN_PASSWORD" \
-    -p ${HTTP_PORT}:80 \
-    -p ${HTTPS_PORT}:443 \
-    -v "$APP_DATA_VOLUME":/data/app_data \
-    -v "$USER_DATA_VOLUME":/data/user_data \
-    -v "$SSL_VOLUME":/config/ssl \
-    --name bioturing \
-    --gpus all \
-    -d \
-    registry.bioturing.com/apps/bioturing-ecosystem:stable
+if [ "$HAVE_GPU" == "yes" ]; then
+    echo -e "${_BLUE}HAVE_GPU${_NC}\n"
+    sudo docker run -t -i \
+        -e WEB_DOMAIN="$DOMAIN_NAME" \
+        -e BIOTURING_TOKEN="$BIOTURING_TOKEN" \
+        -e ADMIN_USERNAME="$ADMIN_USERNAME" \
+        -e ADMIN_PASSWORD="$ADMIN_PASSWORD" \
+        -p ${HTTP_PORT}:80 \
+        -p ${HTTPS_PORT}:443 \
+        -v "$APP_DATA_VOLUME":/data/app_data \
+        -v "$USER_DATA_VOLUME":/data/user_data \
+        -v "$SSL_VOLUME":/config/ssl \
+        --name bioturing \
+        --gpus all \
+        -d \
+        registry.bioturing.com/apps/bioturing-ecosystem:stable
+else
+    echo -e "${_RED}NO_GPU${_NC}\n"
+    sudo docker run -t -i \
+        -e WEB_DOMAIN="$DOMAIN_NAME" \
+        -e BIOTURING_TOKEN="$BIOTURING_TOKEN" \
+        -e ADMIN_USERNAME="$ADMIN_USERNAME" \
+        -e ADMIN_PASSWORD="$ADMIN_PASSWORD" \
+        -p ${HTTP_PORT}:80 \
+        -p ${HTTPS_PORT}:443 \
+        -v "$APP_DATA_VOLUME":/data/app_data \
+        -v "$USER_DATA_VOLUME":/data/user_data \
+        -v "$SSL_VOLUME":/config/ssl \
+        --name bioturing-cpu \
+        -d \
+        registry.bioturing.com/apps/bioturing-ecosystem-cpu:stable
+fi
