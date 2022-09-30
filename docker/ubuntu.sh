@@ -156,6 +156,7 @@ else
     echo -e "${_BLUE}Installing NVIDIA CUDA Toolkit 11.7${_NC}\n"
     wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
     sudo sh cuda_11.7.1_515.65.01_linux.run
+    HAVE_GPU="yes"
 fi
 
 read -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
