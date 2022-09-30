@@ -27,14 +27,6 @@ _MINIMUM_ROOT_SIZE=64424509440 # 60GB
 
 echo -e "${_BLUE}BioTuring ecosystem RHEL installation version${_NC} ${_GREEN}stable${_NC}\n"
 
-echo -e "${_BLUE}Checking root partition capacity${_NC}"
-ROOT_SIZE=$(df -B1 --output=source,size --total / | grep 'total' | awk '{print $2}')
-if [ "$ROOT_SIZE" -lt "$_MINIMUM_ROOT_SIZE" ];
-then
-    echo -e "${_RED}The root partition should be at least 64GB${_NC}"
-    exit 1
-fi
-
 # Input BioTuring Token
 read -p "BioTuring token (please contact support@bioturing.com for a token): " BIOTURING_TOKEN
 if [ -z "$BIOTURING_TOKEN" ];
@@ -169,6 +161,14 @@ read -p "Do you need to install CUDA Toolkit [y, n]: " AGREE_INSTALL
 if [ -z "$AGREE_INSTALL" ] || [ "$AGREE_INSTALL" != "y" ]; then
     echo -e "${_RED}Ignore re-install CUDA Toolkit${_NC}"
 else
+    echo -e "${_BLUE}Checking root partition capacity${_NC}"
+    ROOT_SIZE=$(df -B1 --output=source,size --total / | grep 'total' | awk '{print $2}')
+    if [ "$ROOT_SIZE" -lt "$_MINIMUM_ROOT_SIZE" ];
+    then
+        echo -e "${_RED}The root partition should be at least 64GB${_NC}"
+        exit 1
+    fi
+    
     # NVIDIA CUDA Toolkit
     echo -e "${_BLUE}Installing NVIDIA CUDA Toolkit 11.7${_NC}\n"
     wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
