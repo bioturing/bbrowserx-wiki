@@ -165,7 +165,7 @@ sudo systemctl enable docker
 sudo systemctl start docker
 
 HAVE_GPU="no"
-read -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
+read -p "Do you need to install CUDA Toolkit [y, n]: " AGREE_INSTALL
 if [ -z "$AGREE_INSTALL" ] || [ "$AGREE_INSTALL" != "y" ]; then
     echo -e "${_RED}Ignore re-install CUDA Toolkit${_NC}"
 else
@@ -173,7 +173,13 @@ else
     echo -e "${_BLUE}Installing NVIDIA CUDA Toolkit 11.7${_NC}\n"
     wget https://developer.download.nvidia.com/compute/cuda/11.7.1/local_installers/cuda_11.7.1_515.65.01_linux.run
     sudo sh cuda_11.7.1_515.65.01_linux.run
+    HAVE_GPU="yes"
+fi
 
+read -p "Do you need to install NVIDIA Docker 2 [y, n]: " AGREE_INSTALL
+if [ -z "$AGREE_INSTALL" ] || [ "$AGREE_INSTALL" != "y" ]; then
+    echo -e "${_RED}Ignore re-install NVIDIA Docker 2${_NC}"
+else
     # NVIDIA CUDA Docker 2
     echo -e "${_BLUE}Installing NVIDIA Docker 2${_NC}\n"
     distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
