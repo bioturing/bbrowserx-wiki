@@ -159,9 +159,9 @@ else
     HAVE_GPU="yes"
 fi
 
-read -p "Do you need install CUDA Toolkit [y, n]: " AGREE_INSTALL
+read -p "Do you need install NVIDIA Docker 2 [y, n]: " AGREE_INSTALL
 if [ -z "$AGREE_INSTALL" ] || [ "$AGREE_INSTALL" != "y" ]; then
-    echo -e "${_RED}Ignore re-install CUDA Docker 2${_NC}"
+    echo -e "${_RED}Ignore re-install NVIDIA Docker 2${_NC}"
 else
     # NVIDIA CUDA Docker 2
     echo -e "${_BLUE}Installing NVIDIA Docker 2${_NC}\n"
