@@ -111,16 +111,18 @@ microk8s helm3 version
 
 2. Add BioTuring Helm charts
 
+[For Kubernetes](https://bioturing.github.io/charts/)
+
 ```
 Example:
 
 For Vanilla K8s:
 
-helm repo add bioturing https://registry.bioturing.com/charts/
+helm repo add bioturing https://bioturing.github.io/charts/apps/
 
 For Microk8s:
 
-microk8s helm3 repo add bioturing https://registry.bioturing.com/charts/
+microk8s helm3 repo add bioturing https://bioturing.github.io/charts/apps/
 ```
 
 3. Simple Installation (Recommended):
