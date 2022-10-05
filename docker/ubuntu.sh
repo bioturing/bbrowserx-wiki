@@ -177,15 +177,21 @@ else
     HAVE_GPU="yes"
 fi
 
+# Check Version
+read -p "Please enter BBrowserX's VERSION (latest): " BBVERSION
+if [ -z "$BBVERSION" ]; then
+    BBVERSION="latest"
+fi
+
 # Log in to registry.bioturing.com
 echo -e "${_BLUE}Logging in to registry.bioturing.com${_NC}"
 sudo docker login registry.bioturing.com
 
 # Pull BioTuring ecosystem
 echo -e "${_BLUE}Pulling bioturing ecosystem image${_NC}"
-sudo docker pull registry.bioturing.com/apps/bioturing-ecosystem:stable
 if [ "$HAVE_GPU" == "yes" ]; then
     echo -e "${_BLUE}HAVE_GPU${_NC}\n"
+    sudo docker pull registry.bioturing.com/apps/bioturing-ecosystem:${BBVERSION}
     sudo docker run -t -i \
         -e WEB_DOMAIN="$DOMAIN_NAME" \
         -e BIOTURING_TOKEN="$BIOTURING_TOKEN" \
@@ -199,9 +205,10 @@ if [ "$HAVE_GPU" == "yes" ]; then
         --name bioturing \
         --gpus all \
         -d \
-        registry.bioturing.com/apps/bioturing-ecosystem:stable
+        registry.bioturing.com/apps/bioturing-ecosystem:${BBVERSION}
 else
     echo -e "${_RED}NO_GPU${_NC}\n"
+    sudo docker pull registry.bioturing.com/apps/bioturing-ecosystem-cpu:${BBVERSION}
     sudo docker run -t -i \
         -e WEB_DOMAIN="$DOMAIN_NAME" \
         -e BIOTURING_TOKEN="$BIOTURING_TOKEN" \
@@ -214,5 +221,5 @@ else
         -v "$SSL_VOLUME":/config/ssl \
         --name bioturing-cpu \
         -d \
-        registry.bioturing.com/apps/bioturing-ecosystem-cpu:stable
+        registry.bioturing.com/apps/bioturing-ecosystem-cpu:${BBVERSION}
 fi

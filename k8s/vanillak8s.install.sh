@@ -31,9 +31,9 @@ if [ -z "$ADMIN_PASSWORD" ]; then
     ADMIN_PASSWORD="turing2022"
 fi
 
-read -p "Please enter BBrowserX's VERSION (1.0.11): " BBVERSION
+read -p "Please enter BBrowserX's VERSION (latest): " BBVERSION
 if [ -z "$BBVERSION" ]; then
-    BBVERSION="1.0.11"
+    BBVERSION="latest"
 fi
 
 read -p "Please enter APP-DATA PVC's size (5Gi): " APPDATA_PVC_SIZE
