@@ -25,7 +25,7 @@ Adding self-signed certificates as trusted to your proxy agent/server
 bash ./cert/install.sh
 ```
 
-## 2. Installing BioTuring System on K8S
+## 2. Prepare GPU toolkit for K8S
 
 1. Patch container engines (Docker, Containerd)
 
@@ -91,7 +91,7 @@ sudo systemctl restart docker
 sudo nvidia-container-cli --load-kmods info
 ```
 
-## 3. Kubernetes installation
+## 3. Install BioTuring ecosystem on K8S
 
 We support all k8s engines: GKE (Google Kubernetes Engine), EKS
 (Amazon Elastic Kubernetes Service), AKS (Azure Kubernetes Service), MicroK8s,
@@ -198,7 +198,7 @@ Kubernetes: `>=1.19.0-0`
 | serviceAccount.name | string | `""` | |
 
 
-7.  Manual Installation. 
+7.  Manual Installation 
 
 Please replace paths to your certificate,
 key, admin password, and other helm chart values of your choice.
