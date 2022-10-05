@@ -92,7 +92,7 @@ helm repo update
 helm install --wait --generate-name nvidia/gpu-operator -n kube-system --set driver.enabled=false --set toolkit.enabled=false --debug
 
 echo -e "${_BLUE}Add BioTuring Helm charts to K8S service${_NC}\n"
-helm repo add bioturing https://registry.bioturing.com/charts/
+helm repo add bioturing https://bioturing.github.io/charts/apps/
 helm repo update
 
 echo -e "${_BLUE}Install BioTuring system to K8S service${_NC}\n"

@@ -90,7 +90,7 @@ echo -e "${_BLUE}Enable GPU operator${_NC}\n"
 microk8s enable gpu
 
 echo -e "${_BLUE}Add BioTuring Helm charts to microk8s service${_NC}\n"
-microk8s helm3 repo add bioturing https://registry.bioturing.com/charts/
+microk8s helm3 repo add bioturing https://bioturing.github.io/charts/apps/
 microk8s helm3 repo update
 
 echo -e "${_BLUE}Install BioTuring ecosystem to microk8s service${_NC}\n"
