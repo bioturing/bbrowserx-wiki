@@ -224,7 +224,7 @@ microk8s helm3 upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
  --set secret.server.useletsencrypt="${USELETSENCRYPT}" \
  --set secret.admin.username="${ADMIN_USERNAME}" \
  --set secret.admin.password="${ADMIN_PASSWORD}" \
-bioturing bioturing/ecosystem --version 1.0.11
+bioturing bioturing/ecosystem --version 1.0.18
 
 For Vanilla k8s:
 
@@ -236,7 +236,7 @@ helm upgrade --install --set secret.data.bbtoken="${BBTOKEN}" \
  --set secret.server.useletsencrypt="${USELETSENCRYPT}" \
  --set secret.admin.username="${ADMIN_USERNAME}" \
  --set secret.admin.password="${ADMIN_PASSWORD}" \
-bioturing bioturing/ecosystem --version 1.0.11
+bioturing bioturing/ecosystem --version 1.0.18
 ```
 
 ## 4. Notices
